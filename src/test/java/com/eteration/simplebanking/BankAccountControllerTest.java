@@ -54,11 +54,11 @@ public class BankAccountControllerTest {
         DepositTrx depositTrx = new DepositTrx(1000.0);
 
         doReturn(account).when(service).findAccount("17892");
-        doNothing().when(service).postTransaction("17892", any(DepositTrx.class));
+        doNothing().when(service).postTransaction(eq("17892"), any(DepositTrx.class));
 
         ResponseEntity<TransactionStatus> result = controller.credit("17892", depositTrx);
 
-        verify(service, times(1)).postTransaction("17892", any(DepositTrx.class));
+        verify(service, times(1)).postTransaction(eq("17892"), any(DepositTrx.class));
         assertEquals("OK", result.getBody().getStatus());
         assertNotNull(result.getBody().getApprovalCode());
     }
@@ -71,11 +71,11 @@ public class BankAccountControllerTest {
         WithdrawalTrx withdrawalTrx = new WithdrawalTrx(50.0);
 
         doReturn(account).when(service).findAccount("17892");
-        doNothing().when(service).postTransaction("17892", any(WithdrawalTrx.class));
+        doNothing().when(service).postTransaction(eq("17892"), any(WithdrawalTrx.class));
 
         ResponseEntity<TransactionStatus> result = controller.debit("17892", withdrawalTrx);
 
-        verify(service, times(1)).postTransaction("17892", any(WithdrawalTrx.class));
+        verify(service, times(1)).postTransaction(eq("17892"), any(WithdrawalTrx.class));
         assertEquals("OK", result.getBody().getStatus());
         assertNotNull(result.getBody().getApprovalCode());
     }
@@ -84,14 +84,13 @@ public class BankAccountControllerTest {
     @Test
     public void givenAccountNumber_debitMoreThanBalance_throwsInsufficientBalanceException() {
 
-        BankAccount account = new BankAccount("Kerem Karaca", "17892");
         WithdrawalTrx withdrawalTrx = new WithdrawalTrx(5000.0);
 
-        doThrow(new InsufficientBalanceException("Insufficient balance")).when(service).postTransaction("17892", any(WithdrawalTrx.class));
+        doThrow(new InsufficientBalanceException("Insufficient balance")).when(service).postTransaction(eq("17892"), any(WithdrawalTrx.class));
 
         ResponseEntity<TransactionStatus> result = controller.debit("17892", withdrawalTrx);
 
-        verify(service, times(1)).postTransaction("17892", any(WithdrawalTrx.class));
+        verify(service, times(1)).postTransaction(eq("17892"), any(WithdrawalTrx.class));
         assertEquals("FAILED", result.getBody().getStatus());
         assertNull(result.getBody().getApprovalCode());
     }
