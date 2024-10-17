@@ -17,6 +17,6 @@ public class DepositTrx extends Trx implements Serializable {
 
     @Override
     public void process(BankAccount account) {
-        account.setBalance(account.getBalance() + this.amount);
+        account.credit(amount);
     }
 }

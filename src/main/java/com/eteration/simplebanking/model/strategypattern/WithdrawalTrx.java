@@ -22,7 +22,7 @@ public class WithdrawalTrx extends Trx implements Serializable {
         if (account.getBalance() < this.amount) {
             throw new InsufficientBalanceException("Insufficient balance for withdrawal");
         }
-        account.setBalance(account.getBalance() - this.amount);
+        account.debit(amount);
     }
 }
 

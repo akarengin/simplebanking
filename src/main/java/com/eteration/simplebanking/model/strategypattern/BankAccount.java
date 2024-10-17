@@ -82,6 +82,14 @@ public class BankAccount {
         this.balance = balance;
     }
 
+    public void credit(double amount) {
+        this.balance += amount;
+    }
+
+    public void debit(double amount) {
+        this.balance -= amount;
+    }
+
     public void post(Trx transaction) throws InsufficientBalanceException {
         transaction.process(this);
         this.transactions.add(transaction);

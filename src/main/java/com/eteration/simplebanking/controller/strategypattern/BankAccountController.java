@@ -5,6 +5,7 @@ import com.eteration.simplebanking.dto.BankAccountDTO;
 import com.eteration.simplebanking.model.*;
 import com.eteration.simplebanking.model.strategypattern.BankAccount;
 import com.eteration.simplebanking.model.strategypattern.DepositTrx;
+import com.eteration.simplebanking.model.strategypattern.PhoneBillPaymentTrx;
 import com.eteration.simplebanking.model.strategypattern.WithdrawalTrx;
 import com.eteration.simplebanking.services.strategypattern.BankAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +47,18 @@ public class BankAccountController {
             return ResponseEntity.ok(status);
         } catch (InsufficientBalanceException e) {
             return ResponseEntity.badRequest().body(new TransactionStatus("FAILED", null));
+        }
+    }
+
+    @PostMapping("/payPhoneBill/{accountNumber}")
+    public ResponseEntity<TransactionStatus> payPhoneBill(@PathVariable String accountNumber, @RequestBody PhoneBillPaymentTrx transaction) {
+        PhoneBillPaymentTrx phoneBillPaymentTrx = new PhoneBillPaymentTrx(transaction.getAmount(), transaction.getPayee(),transaction.getPhoneNumber());
+        try {
+            bankAccountService.postTransaction(accountNumber, phoneBillPaymentTrx);
+            TransactionStatus status = new TransactionStatus("OK", phoneBillPaymentTrx.getApprovalCode());
+            return ResponseEntity.ok(status);
+        } catch (InsufficientBalanceException e) {
+            return ResponseEntity.badRequest().body(new TransactionStatus(e.getMessage(), null));
         }
     }
 

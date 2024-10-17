@@ -1,6 +1,7 @@
 package com.eteration.simplebanking.services.strategypattern;
 
 import com.eteration.simplebanking.dto.BankAccountDTO;
+import com.eteration.simplebanking.model.InsufficientBalanceException;
 import com.eteration.simplebanking.model.strategypattern.BankAccount;
 import com.eteration.simplebanking.model.strategypattern.Trx;
 import com.eteration.simplebanking.repository.strategypattern.BankAccountRepository;
@@ -24,7 +25,7 @@ public class BankAccountService {
     }
 
     @Transactional
-    public void postTransaction(String accountNumber, Trx transaction) {
+    public void postTransaction(String accountNumber, Trx transaction) throws InsufficientBalanceException {
         BankAccount account = findAccount(accountNumber);
         account.post(transaction);
         trxRepository.save(transaction);
