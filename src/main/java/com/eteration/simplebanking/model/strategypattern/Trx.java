@@ -2,7 +2,6 @@ package com.eteration.simplebanking.model.strategypattern;
 
 import com.eteration.simplebanking.model.InsufficientBalanceException;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
 import javax.persistence.*;
@@ -10,7 +9,7 @@ import javax.persistence.*;
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "transaction_type")
-public abstract class Trx implements Serializable {
+public abstract class Trx {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,7 +20,7 @@ public abstract class Trx implements Serializable {
     protected String approvalCode;
 
     @ManyToOne
-    @JoinColumn(name = "account_number")
+    @JoinColumn(name = "account_id")
     private BankAccount account;
 
     public Trx() {

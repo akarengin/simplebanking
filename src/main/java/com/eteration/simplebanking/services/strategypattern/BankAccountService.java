@@ -24,11 +24,11 @@ public class BankAccountService {
         return bankAccountRepository.save(account);
     }
 
-    @Transactional
+    @Transactional // If an exception is thrown, the transaction is rolled back.
     public void postTransaction(String accountNumber, Trx transaction) throws InsufficientBalanceException {
         BankAccount account = findAccount(accountNumber);
         account.post(transaction);
-        trxRepository.save(transaction);
+        //trxRepository.save(transaction); ---- No need to do this. CascadeType.ALL does the job.
         bankAccountRepository.save(account);
     }
 

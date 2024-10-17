@@ -3,11 +3,10 @@ package com.eteration.simplebanking.model.strategypattern;
 import com.eteration.simplebanking.model.InsufficientBalanceException;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Entity
 @DiscriminatorValue("WithdrawalTrx")
-public class WithdrawalTrx extends Trx implements Serializable {
+public class WithdrawalTrx extends Trx {
 
     public WithdrawalTrx() {
 

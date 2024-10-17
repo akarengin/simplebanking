@@ -3,11 +3,10 @@ package com.eteration.simplebanking.model.strategypattern;
 import com.eteration.simplebanking.model.InsufficientBalanceException;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Entity
 @DiscriminatorValue("PhoneBillPaymentTrx")
-public class PhoneBillPaymentTrx extends Trx implements Serializable {
+public class PhoneBillPaymentTrx extends Trx {
 
     private String payee;
     private String phoneNumber;
